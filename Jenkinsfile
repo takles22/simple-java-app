@@ -1,16 +1,23 @@
-node{
-    git branch: 'scripted-pipeline', url: 'https://github.com/DinaGamalMahmoud/simple-java-app.git'
-    stage('build'){
-        sh 'echo "build stage"'
-        try{
-            if ( env.BRANCH_NAME == 'scripted-pipeline' ){
-                sh 'echo "we are in build stage"'
-            }
-        }catch(Exception e){
-            throw e
-        }
+pipeline{
+    agent {
+    label 'jenkins-mvn-agent'
     }
-    stage('test'){
-        sh 'echo "test stage"'
+    stages{
+        stage('build'){
+            steps{
+                script{
+                   sh 'mvn clean package'
+                }
+            }
+        }
+
+        stage('test'){
+            steps{
+                script{
+                    sh 'mvn test'
+
+                }
+            }
+        }
     }
 }
