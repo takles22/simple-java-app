@@ -4,7 +4,7 @@ node{
 
     stage('build'){
         try{
-            sh 'echo "build stage"'
+            sh 'echo "build jenkins scripted pipeline"'
         }
         catch(Exception e){
             sh 'echo "exception found"'
