@@ -11,4 +11,7 @@ node{
             throw e
         }
     }
+    stage ('test'){
+        sh 'ech "test failed"'
+    }
 }
