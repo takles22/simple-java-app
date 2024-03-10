@@ -1,17 +1,24 @@
-node{
+pipeline{
 
-    git branch: 'scripted-jenkins-course', url: 'https://github.com/DinaGamalMahmoud/simple-java-app.git'
+    agent any
 
-    stage('build'){
-        try{
-            sh 'echo "build jenkins scripted pipeline"'
+    stages{
+
+        stage('build'){
+            steps{
+                script{
+                    echo "pipeline declartive"
+                }
+            }
         }
-        catch(Exception e){
-            sh 'echo "exception found"'
-            throw e
+
+        stage('test'){
+            steps{
+                script{
+
+                    echo "test stage"
+                }
+            }
         }
-    }
-    stage ('test'){
-        sh 'ech "test failed"'
     }
 }
