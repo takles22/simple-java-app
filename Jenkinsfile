@@ -9,7 +9,7 @@ pipeline{
         stage('build'){
             steps{
                 script{
-                    echo "pipeline declartive"
+                    sh 'mvn clean package'
                 }
             }
         }
@@ -19,6 +19,14 @@ pipeline{
                 script{
 
                     echo "test stage"
+                }
+            }
+        }
+
+        stage ('post build stage'){
+            steps{
+                script{
+                    slackSend channel: '#ci-builds', message: 'pipeline success'
                 }
             }
         }
