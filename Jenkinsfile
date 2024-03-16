@@ -10,6 +10,9 @@ pipeline{
             steps{
                 script{
                     sh 'mvn clean package'
+                  sh 'docker build -t java-app .'
+                    sh 'docker build -t java-app:test .'
+
                 }
             }
         }
