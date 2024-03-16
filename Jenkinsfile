@@ -1,6 +1,16 @@
-node{
+pipeline{
+    agent any
+    stages{
+        stage('build'){
+            steps{
+                script{
+                    sh 'docker build -t java-app .'
+                    sh 'docker build -t java-app:test .'
 
-    git branch: 'scripted-jenkins-course', url: 'https://github.com/DinaGamalMahmoud/simple-java-app.git'
+                }
+            }
+        }
+
 
     stage('build'){
         try{
