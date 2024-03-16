@@ -1,0 +1,39 @@
+pipeline{
+    agent{
+       label 'jenkins-aws-agent'
+    }
+
+    stages{
+
+        stage('build and package'){
+            steps{
+                script{
+                    sh 'docker build -t javaapp .'
+                }
+            }
+        }
+
+        stage('push'){
+            steps{
+                script{
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'password', usernameVariable: 'username')]) {
+                    sh 'docker login --username $username --password $password '
+                    sh 'docker tag javaapp $username/javaapp'
+                    sh 'docker push $username/javaapp'
+                    }
+                }
+            }
+        }
+
+        stage('deploy'){
+            steps{
+                script{
+                    withAWS(credentials:'aws-credentials',region:'us-east-1') {
+                        sh 'aws eks update-kubeconfig --region us-east-1 --name jenkins-course'
+                        sh 'kubectl apply -f ./k8s/deployment.yaml'
+                    }
+                }
+            }
+        }
+    }
+}
